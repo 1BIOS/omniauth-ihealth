@@ -11,6 +11,7 @@ module OmniAuth
       option :name, 'ihealth'
       option :scope, DEFAULT_API_NAMES
       option :provider_ignores_state, true
+      option :sandbox, false
 
       option :client_options, {
         :site => 'https://api.ihealthlabs.com:8443',
@@ -19,6 +20,11 @@ module OmniAuth
         :token_method => :get,
         :parse => :json
       }
+
+      def client
+        options.client_options.site = domain_url
+        super
+      end
 
       def authorize_params
         super.tap do |params|
@@ -106,6 +112,13 @@ module OmniAuth
         end
       end
 
+      def domain_url
+        if options.sandbox
+          'http://sandboxapi.ihealthlabs.com'
+        else
+          'https://api.ihealthlabs.com:8443'
+        end
+      end
     end
   end
 end
