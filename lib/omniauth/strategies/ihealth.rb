@@ -78,7 +78,7 @@ module OmniAuth
           :birthday => info["dateofbirth"] ?
                          Time.at(info["dateofbirth"]).to_date.strftime("%Y-%m-%d") :
                          nil,
-          :image => URI.unescape(info["logo"]),
+          :image => info["logo"] ? URI.unescape(info["logo"]) : nil,
           :nickname => info["nickname"],
           :height => info["height"] ? calc_height(info["height"], info["HeightUnit"]) : nil,
           :weight => info["weight"] ? calc_weight(info["weight"], info["WeightUnit"]) : nil
